@@ -1,5 +1,5 @@
 # Keyakizaka46-Blog-archiver
-Archieve Keyakizaka46 members' blog by PHP
+Archive Keyakizaka46 members' blog by PHP
 
 ## **❗❗ Your help is needed ❗❗**
 ## Installation
