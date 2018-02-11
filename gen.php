@@ -94,7 +94,7 @@ $time = str_replace('  ', '', explode('個別ページ', $out_time));
 for ($i = 0; $i <= 19; $i++) {
     $array[$i] = array();
 
-    //	$link = $dom->find('div.box-ttl h3 a',$i)->href; //no longer required
+    $link = $dom->find('div.box-ttl h3 a',$i)->href;
     if (!$GLOBALS['dev']) {
         $array[$i]['title'] = trim(strip_tags($dom->find('h3', $i), ''));// windows sucks
     $array[$i]['author'] = trim(strip_tags($dom->find('article p.name', $i), '<a>'), ' '); // fix the "windows does not support UTF-8 filename" shit by md5 everything
@@ -102,7 +102,7 @@ for ($i = 0; $i <= 19; $i++) {
         $array[$i]['title'] = substr(md5(htmlspecialchars(trim(strip_tags($dom->find('h3', $i), ''), ' '), ENT_XML1, 'UTF-8')), 0, 5);// windows sucks
     $array[$i]['author'] = substr(md5(htmlspecialchars(trim(strip_tags($dom->find('article p.name', $i), '<a>'), ' '), ENT_XML1, 'UTF-8')), 0, 5); //md5 the "windows does not support UTF-8 filename" shit
     }
-    //	$array[$i]['link'] = htmlspecialchars( $link, ENT_XML1, 'UTF-8').'/'; //no longer required
+    $array[$i]['link'] = $link;
 
 
     $dateTimeObject = \DateTime::createFromFormat('Y/m/d H:i', $time[$i]);
@@ -111,6 +111,8 @@ for ($i = 0; $i <= 19; $i++) {
     if ($array[$i]['title'] == '' | $array[$i]['title'] == ' ') {
         $array[$i]['title'] = 'EMPTY_'.$array[$i]['time'];
     } // Just in case of empty blog title
+	
+	$html_link = htmlspecialchars( 'http://www.keyakizaka46.com'.$array[$i]['link'], ENT_XML1, 'UTF-8');
 
     $header = "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML 4.01//EN\" \"http://www.w3.org/TR/html4/strict.dtd\">
 <html lang=\"en\">
@@ -134,7 +136,8 @@ for ($i = 0; $i <= 19; $i++) {
       <body>
       <h1>{$array[$i]['title']}</h1><br>
       <h4>{$array[$i]['author']}</h4><br>
-      <h4>{$array[$i]['time']}</h4>
+      <h4>{$array[$i]['time']}</h4><br>
+      <h4>{$html_link}</h4>
       <p>
 ";	//For HTML
 	$content = preg_replace('~<[^\/>]+>|<\/[^\/>]+>~', '<br>', strip_tags($dom->find('div.box-article', $i), '<img><br><div><b><span>'));
@@ -191,14 +194,17 @@ for ($i = 0; $i <= 19; $i++) {
               $txt = $array[$i]['title']."\n";
               $txt .= $array[$i]['author']."\n";
               $txt .= $array[$i]['time']."\n";
+              $txt .= 'http://www.keyakizaka46.com'.$array[$i]['link']."\n";
               $txt .= '================================================================='."\n";
-              $txt .= ltrim(html_entity_decode(strip_tags($array[$i]['content_only'], '<br>'), ENT_QUOTES|ENT_HTML5, "UTF-8"));
+              $txt_content = ltrim(html_entity_decode(strip_tags($array[$i]['content_only'], '<br>'), ENT_QUOTES|ENT_HTML5, "UTF-8"));
               $txt_replace_search = ['<br>', '<br/>', '&nbsp', 'body {background-color: powderblue;}'];
               $txt_replace_str = ["\n","\n",' ',''];
-              $txt = ltrim(str_replace($txt_replace_search, $txt_replace_str, $txt));
+              $txt_content = str_replace($txt_replace_search, $txt_replace_str, $txt_content);
+	$txt_content = preg_replace('/^[\n\s]+$/m', '', $txt_content);
+        $txt_content = preg_replace('/^ /m', '', $txt_content);
 
 
-              file_put_contents($location.'text.txt', "\xEF\xBB\xBF" . $txt);
+              file_put_contents($location.'text.txt', "\xEF\xBB\xBF" . $txt . $txt_content);
 
 
               $img_order = 0;
