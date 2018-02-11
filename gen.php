@@ -137,8 +137,10 @@ for ($i = 0; $i <= 19; $i++) {
       <h4>{$array[$i]['time']}</h4>
       <p>
 ";	//For HTML
+	$content = preg_replace('~<[^\/>]+>|<\/[^\/>]+>~', '<br>', strip_tags($dom->find('div.box-article', $i), '<img><br><div><b><span>'));
+	$content = preg_replace('~<br><br>~', '<br>', $content);
 
-    $content = strip_tags($dom->find('div.box-article', $i), '<img><br><div><b>');
+#    $content = strip_tags($dom->find('div.box-article', $i), '<img><br><div><b><span>');
     $replace_search = ['<br />','</div>','<div class="box-article">','<div id="AppleMailSignature">','<div class="gmail_msg">','<br class="gmail_msg">','src="','<div>', '<br> <br>'];
     $replace_str = ['<br>','<br>','<br>','<br>','<br>','<br>','style="max-width: 100%; height: auto;" src="','','<br><br>'];
     $content = str_replace($replace_search, $replace_str, $content);
@@ -190,7 +192,7 @@ for ($i = 0; $i <= 19; $i++) {
               $txt .= $array[$i]['author']."\n";
               $txt .= $array[$i]['time']."\n";
               $txt .= '================================================================='."\n";
-              $txt .= html_entity_decode(strip_tags($array[$i]['content_only'], '<br>'), ENT_QUOTES|ENT_HTML5, "UTF-8");
+              $txt .= ltrim(html_entity_decode(strip_tags($array[$i]['content_only'], '<br>'), ENT_QUOTES|ENT_HTML5, "UTF-8"));
               $txt_replace_search = ['<br>', '<br/>', '&nbsp', 'body {background-color: powderblue;}'];
               $txt_replace_str = ["\n","\n",' ',''];
               $txt = ltrim(str_replace($txt_replace_search, $txt_replace_str, $txt));
