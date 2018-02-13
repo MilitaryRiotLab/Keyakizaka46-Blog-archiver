@@ -96,8 +96,8 @@ for ($i = 0; $i <= 19; $i++) {
 
     $link = $dom->find('div.box-ttl h3 a',$i)->href;
     if (!$GLOBALS['dev']) {
-        $array[$i]['title'] = trim(strip_tags($dom->find('h3', $i), ''));// windows sucks
-    $array[$i]['author'] = trim(strip_tags($dom->find('article p.name', $i), '<a>'), ' '); // fix the "windows does not support UTF-8 filename" shit by md5 everything
+        $array[$i]['title'] = html_entity_decode(trim(strip_tags($dom->find('h3', $i), '')));
+    $array[$i]['author'] = trim(strip_tags($dom->find('article p.name', $i), '<a>'), ' ');
     } elseif ($GLOBALS['dev']) {
         $array[$i]['title'] = substr(md5(htmlspecialchars(trim(strip_tags($dom->find('h3', $i), ''), ' '), ENT_XML1, 'UTF-8')), 0, 5);// windows sucks
     $array[$i]['author'] = substr(md5(htmlspecialchars(trim(strip_tags($dom->find('article p.name', $i), '<a>'), ' '), ENT_XML1, 'UTF-8')), 0, 5); //md5 the "windows does not support UTF-8 filename" shit
