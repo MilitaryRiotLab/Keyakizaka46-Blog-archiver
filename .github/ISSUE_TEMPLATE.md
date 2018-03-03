@@ -22,7 +22,7 @@
 
 ## Possible Solution
 <!--- Not required -->
-<!--- Not obligatory, but suggest a fix/reason for the bug, -->
+<!--- Not obligatory, but suggest a fix/reason for the bug -->
 <!--- or ideas how to implement the addition or change -->
 <!--- For example, remove/add something -->
 <!--- Type below this line -->
@@ -31,7 +31,7 @@
 ## Steps to Reproduce (for bugs)
 <!--- Provide a link to a live example, or an unambiguous set of steps to -->
 <!--- reproduce this bug. Include code to reproduce, if relevant -->
-<!--- Provide a link to the bot page -->
+<!--- Provide links to the bot page and official blog page -->
 <!--- Type below this line -->
 1.
 2.
@@ -49,5 +49,5 @@
 ## Your Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 <!--- Type below this line -->
-* Environment name and version (e.g. Chrome 39, IE11, Firefox, Android Browser):
+* Browser (e.g. Chrome 39, IE11, Firefox, Android Browser):
 * Operating System and version (e.g. Android 8, Windows 10, IOS):
